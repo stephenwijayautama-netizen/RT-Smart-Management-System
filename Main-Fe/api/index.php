@@ -22,12 +22,21 @@ if (isset($_ENV['VERCEL']) || getenv('VERCEL')) {
         $storagePath . '/framework/testing',
         $storagePath . '/framework/views',
         $storagePath . '/logs',
+        $storagePath . '/bootstrap/cache',
     ];
     foreach ($directories as $directory) {
         if (!is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
     }
+
+    // Set Laravel cache variables to use /tmp/storage
+    $_SERVER['APP_CONFIG_CACHE'] = $storagePath . '/bootstrap/cache/config.php';
+    $_SERVER['APP_ROUTES_CACHE'] = $storagePath . '/bootstrap/cache/routes.php';
+    $_SERVER['APP_EVENTS_CACHE'] = $storagePath . '/bootstrap/cache/events.php';
+    $_SERVER['APP_PACKAGES_CACHE'] = $storagePath . '/bootstrap/cache/packages.php';
+    $_SERVER['APP_SERVICES_CACHE'] = $storagePath . '/bootstrap/cache/services.php';
+    $_SERVER['VIEW_COMPILED_PATH'] = $storagePath . '/framework/views';
 }
 
 // Bootstrap Laravel and handle the request...
